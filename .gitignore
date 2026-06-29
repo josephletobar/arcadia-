@@ -1,0 +1,21 @@
+# Arcadia generated outputs
+out/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Local environment files
+.env
+.venv/
+venv/
+
+# Local logs
+*.log
+
+# OS noise
+.DS_Store
+Thumbs.db
