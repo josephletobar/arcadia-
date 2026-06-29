@@ -13,6 +13,9 @@ __pycache__/
 .venv/
 venv/
 
+# Editor settings
+.vscode/
+
 # Local logs
 *.log
 
