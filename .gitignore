@@ -1,5 +1,5 @@
 # Arcadia generated outputs
-out/
+/out*/
 
 # Python cache files
 __pycache__/
@@ -22,8 +22,3 @@ venv/
 # OS noise
 .DS_Store
 Thumbs.db
-
-
-# any
-out/
-out2/

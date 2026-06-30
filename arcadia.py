@@ -4,8 +4,9 @@ from pathlib import Path
 from priority_map import run_priority_map
 from colmap_reconstruction import ReconstructionResult, reconstruct, project_heatmaps
 
-image_frames = Path(r"D:\dronevid2")
-arcadia_out = Path(r"C:/Users/jletobar3/Projects/arcadia/out")
+# image_frames = Path(r"D:\dronevid2")
+image_frames = Path(r"D:\UAV_VisLoc_dataset\05\drone")
+arcadia_out = Path(r"C:/Users/jletobar3/Projects/arcadia/out4")
 
 priority_out = arcadia_out / "priority_map"
 colmap_out = arcadia_out / "colmap"
@@ -20,7 +21,7 @@ def run_priority():
         output_dir=priority_out,
         task="Find cars",
         sam_step=30,
-        show=False,
+        debug=False,
         record=True,
         sam_model_path=Path(r"C:/Users/jletobar3/Projects/drone_heatmap/models/sam3.pt"),
     )
