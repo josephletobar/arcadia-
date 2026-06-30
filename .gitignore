@@ -22,3 +22,8 @@ venv/
 # OS noise
 .DS_Store
 Thumbs.db
+
+
+# any
+out/
+out2/
