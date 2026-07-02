@@ -5,8 +5,11 @@ from priority_map import run_priority_map
 from colmap_reconstruction import ReconstructionResult, reconstruct, project_heatmaps
 
 # image_frames = Path(r"D:\dronevid2")
-image_frames = Path(r"D:\UAV_VisLoc_dataset\05\drone")
-arcadia_out = Path(r"C:/Users/jletobar3/Projects/arcadia/out4")
+# image_frames = Path(r"D:\UAV_VisLoc_dataset\05\drone")
+# image_frames = Path(r"D:\Drone subset 2")
+# image_frames = Path(r"D:\dronevid2")
+image_frames = Path(r"C:\Users\jletobar3\Desktop\dronevids")
+arcadia_out = Path(r"C:/Users/jletobar3/Projects/arcadia/out10")
 
 priority_out = arcadia_out / "priority_map"
 colmap_out = arcadia_out / "colmap"
