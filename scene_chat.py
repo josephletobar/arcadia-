@@ -185,8 +185,10 @@ Answer style:
 - Be crisp and direct.
 - Use coordinates internally for spatial reasoning, but do not print raw coordinate
   pairs or coordinate lists in the answer.
+- Also do not output high-level spatial informaton like "middle of the scene", "northwest corner", "right side" etc, 
+    there is no notion of absolute direction or centrality in the graph.
 - Prefer clean conceptual scene areas and actions over numeric location dumps.
-- You may refer to broad areas such as upper-left, central area, lower-right,
+- You may refer to broad areas such as
   road-connected area, building compound, field edge, forested area, or open yard
   only when supported by the graph.
 - Give a short recommendation and brief reasoning based on node scores, node

@@ -9,7 +9,7 @@ from colmap_reconstruction import ReconstructionResult, reconstruct, project_hea
 # image_frames = Path(r"D:\Drone subset 2")
 # image_frames = Path(r"D:\dronevid2")
 image_frames = Path(r"C:\Users\jletobar3\Desktop\dronevids")
-arcadia_out = Path(r"C:/Users/jletobar3/Projects/arcadia/out10")
+arcadia_out = Path(r"C:/Users/jletobar3/Projects/arcadia/out11")
 
 priority_out = arcadia_out / "priority_map"
 colmap_out = arcadia_out / "colmap"
@@ -24,7 +24,7 @@ def run_priority():
         output_dir=priority_out,
         task="Find cars",
         sam_step=30,
-        debug=False,
+        debug=True,
         record=True,
         sam_model_path=Path(r"C:/Users/jletobar3/Projects/drone_heatmap/models/sam3.pt"),
     )
