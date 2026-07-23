@@ -39,7 +39,12 @@ class ArcadiaViewTests(unittest.TestCase):
                 patch.object(arcadia_view.time, "sleep"),
                 patch.object(arcadia_view, "_close_process") as close_process,
             ):
-                result = arcadia_view.run_workspace(mesh, db, chat=True)
+                result = arcadia_view.run_workspace(
+                    mesh,
+                    db,
+                    graph_viz=True,
+                    chat=True,
+                )
 
             self.assertEqual(result, 0)
             move.assert_called_once_with(
@@ -54,6 +59,32 @@ class ArcadiaViewTests(unittest.TestCase):
                 close_process.call_args_list,
                 [call(graph), call(chat), call(painter)],
             )
+
+    def test_database_does_not_open_graph_by_default(self):
+        with TemporaryDirectory() as temp_dir:
+            mesh = Path(temp_dir) / "mesh.ply"
+            db = Path(temp_dir) / "graph.db"
+            mesh.touch()
+            db.touch()
+            painter = MagicMock()
+            painter.pid = 10
+            painter.poll.return_value = 0
+            painter.returncode = 0
+
+            with (
+                patch.object(arcadia_view, "desktop_work_area", return_value=(0, 0, 1200, 800)),
+                patch.object(arcadia_view, "_visible_window_handles", return_value=set()),
+                patch.object(arcadia_view, "launch_mesh_viewer", return_value=painter),
+                patch.object(arcadia_view, "launch_graph") as launch_graph,
+                patch.object(arcadia_view, "launch_chat") as launch_chat,
+                patch.object(arcadia_view, "_move_process_window", return_value=True),
+                patch.object(arcadia_view, "_close_process"),
+            ):
+                result = arcadia_view.run_workspace(mesh, db)
+
+            self.assertEqual(result, 0)
+            launch_graph.assert_not_called()
+            launch_chat.assert_not_called()
 
     def test_chat_reloads_database_before_each_question(self):
         initial = {"nodes": [], "spatial_edges": []}

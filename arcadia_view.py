@@ -468,7 +468,7 @@ def launch_chat(db_path, geometry):
     )
 
 
-def run_workspace(mesh_path, graph_db=None, chat=False):
+def run_workspace(mesh_path, graph_db=None, graph_viz=False, chat=False):
     mesh_path = Path(mesh_path).resolve()
     graph_db = Path(graph_db).resolve() if graph_db is not None else None
     if not mesh_path.is_file():
@@ -477,6 +477,8 @@ def run_workspace(mesh_path, graph_db=None, chat=False):
         raise ValueError(f"Mesh must be a .ply file: {mesh_path}")
     if graph_db is not None and not graph_db.is_file():
         raise FileNotFoundError(f"Graph DB not found: {graph_db}")
+    if graph_viz and graph_db is None:
+        raise ValueError("--graph-viz requires --graph-db")
     if chat and graph_db is None:
         raise ValueError("--chat requires --graph-db")
 
@@ -485,14 +487,14 @@ def run_workspace(mesh_path, graph_db=None, chat=False):
     existing_windows = _visible_window_handles()
     painter = launch_mesh_viewer(mesh_path, graph_db)
     try:
-        if graph_db is None:
+        if not graph_viz and not chat:
             painter_geometry = (left, top, width, height)
         else:
             painter_width = width // 2
             painter_geometry = (left, top, painter_width, height)
             right_x = left + painter_width
             right_width = width - painter_width
-            if chat:
+            if graph_viz and chat:
                 graph_height = height // 2
                 graph_geometry = (right_x, top, right_width, graph_height)
                 chat_geometry = (
@@ -502,9 +504,13 @@ def run_workspace(mesh_path, graph_db=None, chat=False):
                     height - graph_height,
                 )
                 children.append(launch_chat(graph_db, chat_geometry))
-            else:
+                children.append(launch_graph(graph_db, graph_geometry))
+            elif graph_viz:
                 graph_geometry = (right_x, top, right_width, height)
-            children.append(launch_graph(graph_db, graph_geometry))
+                children.append(launch_graph(graph_db, graph_geometry))
+            else:
+                chat_geometry = (right_x, top, right_width, height)
+                children.append(launch_chat(graph_db, chat_geometry))
 
         if not _move_process_window(
             painter,
@@ -532,12 +538,17 @@ def parse_args():
     parser.add_argument(
         "--graph-db",
         type=Path,
-        help="Optional Priority Map graph.db for DB painting and spatial graph display.",
+        help="Optional Priority Map graph.db for synchronized painting.",
+    )
+    parser.add_argument(
+        "--graph-viz",
+        action="store_true",
+        help="Display the live spatial graph; requires --graph-db.",
     )
     parser.add_argument(
         "--chat",
         action="store_true",
-        help="Open Scene Chat below the spatial graph; requires --graph-db.",
+        help="Open Scene Chat beside the painter; requires --graph-db.",
     )
     parser.add_argument("--_child", choices=("graph", "chat"), help=argparse.SUPPRESS)
     parser.add_argument("--_x", type=int, default=0, help=argparse.SUPPRESS)
@@ -564,7 +575,14 @@ def main():
     if args.mesh is None:
         raise SystemExit("A mesh path is required")
     try:
-        raise SystemExit(run_workspace(args.mesh, args.graph_db, chat=args.chat))
+        raise SystemExit(
+            run_workspace(
+                args.mesh,
+                args.graph_db,
+                graph_viz=args.graph_viz,
+                chat=args.chat,
+            )
+        )
     except (FileNotFoundError, RuntimeError, ValueError) as error:
         raise SystemExit(f"Error: {error}") from error
 

@@ -42,24 +42,36 @@ Open a PLY in the standalone painter:
 python arcadia_view.py "C:\path\to\mesh.ply"
 ```
 
-Pass a Priority Map database to synchronize painting and show its live spatial
-graph beside the mesh:
+Pass a Priority Map database to synchronize painting. This does not display the
+graph by default:
 
 ```powershell
 python arcadia_view.py "C:\path\to\object_pins_on_mesh.ply" --graph-db "C:\path\to\graph.db"
 ```
 
-Add `--chat` to open Scene Chat below the graph. Chat reloads `graph.db` before
-each question so answers reflect committed painting changes:
+Add `--graph-viz` to display the live spatial graph beside the painter:
+
+```powershell
+python arcadia_view.py "C:\path\to\object_pins_on_mesh.ply" --graph-db "C:\path\to\graph.db" --graph-viz
+```
+
+Add `--chat` to open Scene Chat beside the painter. Chat reloads `graph.db`
+before each question so answers reflect committed painting changes:
 
 ```powershell
 python arcadia_view.py "C:\path\to\object_pins_on_mesh.ply" --graph-db "C:\path\to\graph.db" --chat
 ```
 
-### Known working example
+Use both flags to stack the graph and chat on the right:
+
+```powershell
+python arcadia_view.py "C:\path\to\object_pins_on_mesh.ply" --graph-db "C:\path\to\graph.db" --graph-viz --chat
+```
+
+#### Local Example
 
 ```powershell
 cd "C:\Users\jletobar3\Projects\arcadia"
 
-python arcadia_view.py "C:\Users\jletobar3\Projects\smallout\object_pins\object_pins_on_mesh.ply" --graph-db "C:\Users\jletobar3\Projects\drone_heatmap\examples\2026-07-13_12-45-06\graph.db" --chat
+python arcadia_view.py "C:\Users\jletobar3\Projects\smallout\object_pins\object_pins_on_mesh.ply" --graph-db "C:\Users\jletobar3\Projects\drone_heatmap\examples\2026-07-13_12-45-06\graph.db" --chat --graph-viz
 ```
