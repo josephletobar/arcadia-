@@ -186,7 +186,8 @@ Question:
 {question}
 
 Answer style:
-- Be crisp, direct, and brief.
+- Be direct.
+- 3 sentance max.
 - Use coordinates internally for spatial reasoning, but do not print raw coordinate
   pairs or coordinate lists in the answer.
 - Also do not output high-level spatial informaton like "middle of the scene", "northwest corner", "right side" etc, 

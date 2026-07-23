@@ -55,3 +55,11 @@ each question so answers reflect committed painting changes:
 ```powershell
 python arcadia_view.py "C:\path\to\object_pins_on_mesh.ply" --graph-db "C:\path\to\graph.db" --chat
 ```
+
+### Known working example
+
+```powershell
+cd "C:\Users\jletobar3\Projects\arcadia"
+
+python arcadia_view.py "C:\Users\jletobar3\Projects\smallout\object_pins\object_pins_on_mesh.ply" --graph-db "C:\Users\jletobar3\Projects\drone_heatmap\examples\2026-07-13_12-45-06\graph.db" --chat
+```
